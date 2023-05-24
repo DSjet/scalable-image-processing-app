@@ -1,0 +1,15 @@
+http {
+    upstream backend {
+        server localhost:1000;
+        server localhost:2000;
+    }
+    server {
+        listen 80;
+        root /Users/anamalocaris/Projects/scalable-software/scalable-image-processing-app/;
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+}
+
+events {}
