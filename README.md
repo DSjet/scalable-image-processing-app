@@ -119,3 +119,123 @@ Before proceeding with the installation, please ensure that you have the followi
      ```
 
    Your Node.js server will start running on the specified port. You can access it in your web browser by visiting `http://localhost:<port>`, where `<port>` is the value you set for the server port in your Node.js application.
+
+## Step 3: Testing load balancing
+
+### Running Nginx Server:
+1. **Start Nginx:**
+
+   To start the Nginx server, follow the instructions below based on your operating system:
+
+   - **Linux:**
+
+     Open a terminal and run the following command:
+
+     ```bash
+     sudo service nginx start
+     ```
+
+   - **macOS:**
+
+     Open a terminal and run the following command:
+
+     ```bash
+     sudo nginx
+     ```
+
+   - **Windows:**
+
+     Open the Command Prompt as an administrator and navigate to the Nginx installation directory (e.g., `C:\nginx`).
+
+     To start Nginx as a service, run the following command:
+
+     ```bash
+     nginx.exe
+     ```
+
+     Alternatively, to start Nginx in the foreground, run:
+
+     ```bash
+     nginx.exe -g "daemon off;"
+     ```
+
+2. **Verify Nginx Status:**
+
+   To verify if Nginx is running correctly, follow the instructions below based on your operating system:
+
+   - **Linux:**
+
+     Open a web browser and visit `http://localhost:80`.
+
+   - **macOS:**
+
+     Open a web browser and visit `http://localhost:80`.
+
+   - **Windows:**
+
+     Open a web browser and visit `http://localhost:80` or `http://127.0.0.1`. 
+   
+   To make sure that it already acts as a load balancer refresh the page in it should change the port in the html view.
+
+3. **Stop Nginx:**
+
+   To stop the Nginx server, follow the instructions below based on your operating system:
+
+   - **Linux:**
+
+     Open a terminal and run the following command:
+
+     ```bash
+     sudo service nginx stop
+     ```
+
+   - **macOS:**
+
+     Open a terminal and run the following command:
+
+     ```bash
+     sudo nginx -s stop
+     ```
+
+   - **Windows:**
+
+     Open the Command Prompt as an administrator and navigate to the Nginx installation directory (e.g., `C:\nginx`).
+
+     To stop Nginx, run the following command:
+
+     ```bash
+     nginx.exe -s stop
+     ```
+
+     Alternatively, you can press `Ctrl + C` in the Command Prompt window where Nginx is running.
+   
+4. **Restarting Nginx:**
+   To restart the Nginx server, follow the instructions below based on your operating system:
+    - **Linux:**
+
+     Open a terminal and run the following command:
+
+     ```bash
+     sudo service nginx restart
+     ```
+
+   - **macOS:**
+
+     Open a terminal and run the following command:
+
+     ```bash
+     sudo nginx -s reload
+     ```
+
+   - **Windows:**
+
+     Open the Command Prompt as an administrator and navigate to the Nginx installation directory (e.g., `C:\nginx`).
+
+     To stop Nginx, run the following command:
+
+     ```bash
+     nginx.exe -s reload
+     ```
+
+     Alternatively, you can press `Ctrl + C` in the Command Prompt window where Nginx is running.
+   
