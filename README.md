@@ -61,7 +61,7 @@ Once the installation is complete, you can verify if Nginx is running correctly:
 
 - Open a web browser and visit `http://localhost` or `http://127.0.0.1`. You should see the default Nginx welcome page if everything is set up properly.
 
-Find nginx.conf file copy the contents in nginxconf.txt to that:
+Find nginx.conf file copy the contents in nginxconf.txt to the configuration file:
 
 - Linux: `/etc/nginx/nginx.conf`
 - macOS: `/usr/local/etc/nginx/nginx.conf` (using curl)
