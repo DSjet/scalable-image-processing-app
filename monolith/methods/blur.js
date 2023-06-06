@@ -2,9 +2,9 @@ const sharp = require("sharp");
 
 async function blur(image) {
   try {
-    const result = await sharp("/methods/car.jpg")
+    const result = await sharp(image.path)
       .blur(10)
-      .toFile("car_blur.jpg");
+      .toFile(`public/images/blur_${image.originalname}`);
     console.log(result);
     return result;
   } catch (error) {

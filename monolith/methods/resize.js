@@ -2,9 +2,9 @@ const sharp = require("sharp");
 
 async function blur(image) {
   try {
-    const result = await sharp("/methods/car.jpg")
+    const result = await sharp(image.path)
       .resize({ width: 150, height: 97 })
-      .toFile("car_resized.jpg");
+      .toFile(`public/images/resize_${image.originalname}`);
     console.log(result);
     return result;
   } catch (error) {
