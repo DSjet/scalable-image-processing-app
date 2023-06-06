@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Processing</title>
+  </head>
+
+  <body>
+    <form id="form">
+      <label>Select Image: </label>
+      <input type="file" id="file" name="file" accept="image/*" />
+      <button type="submit">Upload File</button>
+    </form>
+  </body>
+
+  <script>
+    const form = document.getElementById("form");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const uploadElement = document.getElementById("file");
+
+      const file = uploadElement.files[0];
+
+      const payload = new FormData();
+      payload.append("image", file);
+
+      fetch("/", {
+        method: "POST",
+        body: payload,
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.error(err));
+    });
+  </script>
+</html>
