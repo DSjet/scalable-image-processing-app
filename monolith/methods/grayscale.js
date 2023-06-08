@@ -2,9 +2,9 @@ const sharp = require("sharp");
 
 async function grayscale(image) {
   try {
-    const result = await sharp("/methods/car.jpg")
+    const result = await sharp(image.path)
       .grayscale()
-      .toFile("car_grayscale.jpg");
+      .toFile(`public/images/grayscale_${image.originalname}`);
     console.log(result);
     return result;
   } catch (error) {

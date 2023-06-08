@@ -1,40 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Processing</title>
+    <title>Image Processing App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f5f5f5;
+        padding: 20px;
+      }
+
+      h1 {
+        margin-top: 50px;
+        color: #333;
+      }
+
+      .container {
+        margin-top: 50px;
+      }
+
+      .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+      }
+
+      .btn {
+        border: none;
+        color: white;
+        background-color: #0072ce;
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #005ea8;
+      }
+
+      .upload-btn-wrapper input[type="file"] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+      }
+
+      .file-name {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .processing-options {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .processing-option {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+      }
+
+      .processing-option:hover {
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .processing-option input[type="radio"] {
+        display: none;
+      }
+
+      .processing-option label {
+        margin-left: 10px;
+        font-weight: bold;
+      }
+
+      .result-container {
+        margin-top: 50px;
+      }
+
+      .result-image {
+        max-width: 100%;
+        margin: 20px auto;
+      }
+
+      .no-result {
+        color: #777;
+        font-style: italic;
+      }
+    </style>
   </head>
-
   <body>
-    <form id="form">
-      <label>Select Image: </label>
-      <input type="file" id="file" name="file" accept="image/*" />
-      <button type="submit">Upload File</button>
-    </form>
+    <h1>Image Processing App</h1>
+
+    <div class="container">
+      <div class="upload-btn-wrapper">
+        <button class="btn">Upload an image</button>
+        <input type="file" name="imageFile" id="imageFile" accept="image/*" />
+      </div>
+      <div class="file-name">No file chosen</div>
+    </div>
+
+    <div class="container processing-options">
+      <div class="processing-option">
+        <input
+          type="radio"
+          name="processingFunction"
+          id="grayscale"
+          value="grayscale"
+        />
+        <label for="grayscale">Grayscale</label>
+      </div>
+      <div class="processing-option">
+        <input type="radio" name="processingFunction" id="blur" value="blur" />
+        <label for="blur">Blur</label>
+      </div>
+      <div class="processing-option">
+        <input
+          type="radio"
+          name="processingFunction"
+          id="resize"
+          value="resize"
+        />
+        <label for="resize">Resize</label>
+      </div>
+    </div>
+
+    <div class="result-container">
+      <h2>Processed Image</h2>
+      <img
+        id="result-image"
+        class="result-image"
+        src="#"
+        alt="Processed Image"
+      />
+      <p class="no-result">No image processed yet.</p>
+    </div>
+
+    <script>
+      const fileInput = document.getElementById("imageFile");
+      const fileNameLabel = document.querySelector(".file-name");
+      const resultImage = document.getElementById("result-image");
+      const noResultMessage = document.querySelector(".no-result");
+      const processingOptions = document.querySelectorAll(
+        'input[name="processingFunction"]'
+      );
+      const selectedOption = document.querySelector(
+        'input[name="processingFunction"]:checked'
+      );
+
+      fileInput.addEventListener("change", function () {
+        if (fileInput.files.length > 0) {
+          const fileName = fileInput.files[0].name;
+          fileNameLabel.textContent = fileName;
+        } else {
+          fileNameLabel.textContent = "No file chosen";
+        }
+      });
+
+      for (const option of processingOptions) {
+        option.addEventListener("change", function () {
+          if (this.checked) {
+            const selectedFunction = this.value;
+            console.log(selectedFunction);
+            processImage(selectedFunction);
+          }
+        });
+      }
+
+      async function processImage(selectedFunction) {
+        const url = "/" + selectedFunction;
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append("image", file);
+        await fetch(url, {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((err) => console.error(err));
+        setTimeout(() => {
+          displayResult(
+            `images/${selectedFunction}_${fileNameLabel.innerHTML}`
+          );
+        }, 100);
+      }
+
+      function displayResult(imagePath) {
+        if (imagePath) {
+          resultImage.src = imagePath;
+          resultImage.style.display = "block";
+          noResultMessage.style.display = "none";
+        } else {
+          resultImage.style.display = "none";
+          noResultMessage.style.display = "block";
+        }
+      }
+    </script>
   </body>
-
-  <script>
-    const form = document.getElementById("form");
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const uploadElement = document.getElementById("file");
-
-      const file = uploadElement.files[0];
-
-      const payload = new FormData();
-      payload.append("image", file);
-
-      fetch("/", {
-        method: "POST",
-        body: payload,
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.error(err));
-    });
-  </script>
 </html>
